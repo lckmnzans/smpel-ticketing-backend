@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+const accRoute = require('../router/account.route');
+router.use('/api/v1/account', accRoute);
+
 router.get('/', (req,res) => {
     console.log('Received GET request');
     res.send('GET request to the homepage')
