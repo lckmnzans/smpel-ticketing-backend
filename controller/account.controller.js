@@ -1,16 +1,17 @@
 const { User } = require('../models');
-const { Op } = require('sequelize');
 const crypto = require('crypto');
 const { encoded } = require('../utils/auth');
 
 async function registerAccount(req,res) {
     const { email, password } = req.body;
+    const isAdmin = req.body?.isAdmin;
 
     const [user,created] = await User.findOrCreate({
         where: { email: email },
         defaults: {
             email: email,
-            password: hashPassword(password)
+            password: hashPassword(password),
+            isAdmin: isAdmin
         }
     })
 
@@ -55,6 +56,7 @@ async function loginAccount(req,res) {
                 data: {
                     id: user.id,
                     email: user.email,
+                    isAdmin: user.isAdmin,
                     token: token
                 }
             });

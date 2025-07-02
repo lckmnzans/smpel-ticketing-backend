@@ -18,7 +18,10 @@ const User = sequelize.define('users', {
     },
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    role: DataTypes.STRING
+    isAdmin: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    }
 }, {
     timestamps: false
 }
