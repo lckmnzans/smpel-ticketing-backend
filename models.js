@@ -18,6 +18,7 @@ const User = sequelize.define('users', {
     },
     email: DataTypes.STRING,
     password: DataTypes.STRING,
+    role: DataTypes.STRING
 }, {
     timestamps: false
 }
@@ -46,6 +47,9 @@ User.hasMany(Ticket);
 Ticket.belongsTo(User);
 
 module.exports = {
-        User,
-        Ticket
-    }
+    syncronize: async () => {
+        await sequelize.sync({ alter: true })
+    },
+    User,
+    Ticket
+}

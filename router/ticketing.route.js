@@ -27,5 +27,6 @@ const handler = (req,res,next) => {
 }
 
 router.post('/add', handler, controller.addTicket);
+router.get('/:userId', handler, controller.getTickets);
 
 module.exports = router;
