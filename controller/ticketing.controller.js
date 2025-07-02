@@ -1,9 +1,25 @@
+const { Ticket } = require('../models');
+
 async function addTicket(req,res) {
-    return res.json({
-        "status": 200,
-        "message": "Validated",
+    const { namaLengkap, email, kontak, judul, detail, status, asosiasiDokumen, userId } = req.body;
+
+    const ticket = await Ticket.create({
+        namaLengkap: namaLengkap,
+        email: email,
+        kontak: kontak,
+        judul: judul,
+        detail: detail,
+        komentar: "",
+        pengomentar: "",
+        status: status,
+        asosiasiDokumen: asosiasiDokumen,
+        userId: userId
     })
-    const { namaLengkap, email, kontak, judul, detail, status } = req.body;
+    return res.json({
+        success: true,
+        message: "Ticket berhasil dibuat",
+        data: ticket
+    })
 }
 
 async function getTickets(req,res) {

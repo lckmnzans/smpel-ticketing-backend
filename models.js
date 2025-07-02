@@ -23,4 +23,29 @@ const User = sequelize.define('users', {
 }
 );
 
-module.exports = { User };
+const Ticket = sequelize.define('tickets', {
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+    },
+    namaLengkap: DataTypes.STRING,
+    email: DataTypes.STRING,
+    kontak: DataTypes.STRING,
+    judul: DataTypes.STRING,
+    detail: DataTypes.STRING,
+    komentar: DataTypes.STRING,
+    status: DataTypes.STRING,
+    pengomentar: DataTypes.STRING,
+    asosiasiDokumen: DataTypes.STRING
+}, {
+    timestamps: false
+})
+
+User.hasMany(Ticket);
+Ticket.belongsTo(User);
+
+module.exports = {
+        User,
+        Ticket
+    }
