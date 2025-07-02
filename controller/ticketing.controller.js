@@ -60,8 +60,51 @@ async function getTickets(req,res) {
     }
 }
 
-async function updateTicket(req,res) {
-    const { id, komentar, userId } = req.body;
+async function getAllTickets(req,res) {
+    const tickets = await Ticket.findAll();
+    if (tickets) {
+        return res.json({
+            success: true,
+            message: 'Tiket berhasil didapatkan',
+            data: tickets
+        })
+    } else {
+        return res.status(404).json({
+            success: false,
+            message: 'Tiket masih kosong',
+        })
+    }
 }
 
-module.exports = { addTicket, getTickets, updateTicket };
+async function updateTicket(req,res) {
+    const id = req.params.ticketId;
+    const { pengomentar, komentar } = req.body;
+    if (pengomentar && komentar) {
+        const ticket = await Ticket.findByPk(id);
+        if (ticket) {
+            ticket.set({
+                pengomentar: pengomentar,
+                komentar: komentar,
+                status: 'selesai'
+            });
+            const updatedTicket = await ticket.save();
+            return res.json({
+                success: true,
+                message: 'Tiket berhasil diupdate',
+                data: updatedTicket
+            });
+        } else {
+            return res.status(404).json({
+                success: false,
+                message: 'Tiket tidak ditemukan',
+            })
+        }
+    } else {
+        return res.status(400).json({
+            success: false,
+            message: 'Pengomentar dan komentar harus diisi',
+        })
+    }
+}
+
+module.exports = { addTicket, getTickets, getAllTickets, updateTicket };
